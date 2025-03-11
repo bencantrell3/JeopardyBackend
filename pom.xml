@@ -64,7 +64,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.example.jeopardybackend.JeopardyBackendApplication</mainClass>
+                            <mainClass>com.example.JeopardyBackend.JeopardyBackendApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
