@@ -1,2 +1,5 @@
+com\example\JeopardyBackend\dao\QuestionDAO.class
 com\example\JeopardyBackend\controller\JeopardyController.class
+com\example\JeopardyBackend\service\MySQLDataBaseModification.class
 com\example\JeopardyBackend\JeopardyBackendApplication.class
+com\example\JeopardyBackend\model\Question.class

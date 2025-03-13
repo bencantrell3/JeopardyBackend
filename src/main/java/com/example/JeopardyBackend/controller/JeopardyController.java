@@ -1,13 +1,37 @@
 package com.example.JeopardyBackend.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.JeopardyBackend.service.MySQLDataBaseModification;
+import com.example.JeopardyBackend.model.Question;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/jeopardy")
 public class JeopardyController {
 
-    @GetMapping("/hello")
+    private final MySQLDataBaseModification db = new MySQLDataBaseModification();
+
+    @GetMapping("/get")
     public String hello() {
-        return "Hello, World!";
+        System.out.println("Question retrieved successfully");
+        return db.getQuestion(1,1);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addQuestion(@RequestBody String question) {
+        // Logic to add a question
+        return ResponseEntity.ok("Question added successfully!");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateQuestion(@PathVariable int id, @RequestBody String updatedQuestion) {
+        // Logic to update a question
+        return ResponseEntity.ok("Question with ID " + id + " updated successfully!");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable int id) {
+        // Logic to delete a question
+        return ResponseEntity.ok("Question with ID " + id + " deleted successfully!");
     }
 }
