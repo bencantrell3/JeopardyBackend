@@ -12,9 +12,9 @@ public class JeopardyController {
     private final MySQLDataBaseModification db = new MySQLDataBaseModification();
 
     @GetMapping("/get")
-    public String hello() {
-        System.out.println("Question retrieved successfully");
-        return db.getQuestion(1,1);
+    public String getQuestion(@RequestParam int gameId, @RequestParam int questionId) {
+        System.out.println("Question retrieved successfully for game ID: " + gameId + " and question ID: " + questionId);
+        return db.getQuestion(gameId, questionId);
     }
 
     @PostMapping("/add")
