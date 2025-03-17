@@ -14,6 +14,7 @@ public class JeopardyController {
     @GetMapping("/get")
     public String getQuestion(@RequestParam int gameId, @RequestParam int questionId) {
         System.out.println("Question retrieved successfully for game ID: " + gameId + " and question ID: " + questionId);
+        System.out.println(gameId + " " + questionId);
         return db.getQuestion(gameId, questionId);
     }
 
