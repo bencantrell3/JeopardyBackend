@@ -12,11 +12,17 @@ public class JeopardyController {
     private final MySQLDataBaseModification db = new MySQLDataBaseModification();
 
     @GetMapping("/get")
-    public String getQuestion(@RequestParam int gameId, @RequestParam int questionId) {
+    public String getQuestion(@RequestParam(required = false) Integer gameId,
+                              @RequestParam(required = false) Integer questionId) {
+        if (gameId == null || questionId == null) {
+            return "Missing required query parameters: gameId and questionId.";
+        }
+
         System.out.println("Question retrieved successfully for game ID: " + gameId + " and question ID: " + questionId);
-        System.out.println(gameId + " " + questionId);
+
         return db.getQuestion(gameId, questionId);
     }
+
 
     @PostMapping("/add")
     public ResponseEntity<String> addQuestion(@RequestBody String question) {
