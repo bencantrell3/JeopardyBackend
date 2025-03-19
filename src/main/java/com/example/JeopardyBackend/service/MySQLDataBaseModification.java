@@ -17,6 +17,7 @@ public class MySQLDataBaseModification {
 
     // Method to fetch a Question by gameId and questionId, and return it as a string
     public String getQuestion(int gameId, int questionId) {
+        System.out.println("PARAMETERS RECEIVED: " + gameId + ", " + questionId);
         String query = "SELECT * FROM questions WHERE game_id = ? AND question_id = ?";
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
