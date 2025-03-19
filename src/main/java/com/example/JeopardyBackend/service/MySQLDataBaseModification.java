@@ -32,9 +32,10 @@ public class MySQLDataBaseModification {
                     String category = resultSet.getString("category");
                     String questionText = resultSet.getString("question");
                     String answer = resultSet.getString("answer");
+                    int points = resultSet.getInt("points");
 
                     // Create and return the Question as a string
-                    Question question = new Question(gameId, questionId, category, questionText, answer);
+                    Question question = new Question(gameId, questionId, category, questionText, answer, points);
                     System.out.println(question.toString());
                     return question.toString();
                 } else {
@@ -47,4 +48,34 @@ public class MySQLDataBaseModification {
             return "Error retrieving the question: " + e.getMessage();
         }
     }
+
+    public boolean addQuestion(int gameId, int questionId, String category, String question, String answer, int points) {
+        String query = "INSERT INTO questions (game_id, question_id, category, question, answer, points) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set the parameters
+            preparedStatement.setInt(1, gameId);
+            preparedStatement.setInt(2, questionId);
+            preparedStatement.setString(3, category);
+            preparedStatement.setString(4, question);
+            preparedStatement.setString(5, answer);
+            preparedStatement.setInt(6, points);
+
+            int result = preparedStatement.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Question added successfully.");
+                return true;
+            } else {
+                System.out.println("Failed to add question.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

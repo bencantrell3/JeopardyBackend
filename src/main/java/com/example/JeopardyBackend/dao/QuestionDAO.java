@@ -27,7 +27,8 @@ public class QuestionDAO {
                 rs.getInt("question_id"),
                 rs.getString("category"),
                 rs.getString("question"),
-                rs.getString("answer")
+                rs.getString("answer"),
+                rs.getInt("points")
         ));
     }
 
@@ -39,7 +40,8 @@ public class QuestionDAO {
                 rs.getInt("question_id"),
                 rs.getString("category"),
                 rs.getString("question"),
-                rs.getString("answer")
+                rs.getString("answer"),
+                rs.getInt("points")
         ), id);
     }
 

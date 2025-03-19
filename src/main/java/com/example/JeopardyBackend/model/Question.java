@@ -6,6 +6,7 @@ public class Question {
     private String category;
     private String question;
     private String answer;
+    private int points;
 
     // Constructor
     public Question() {
@@ -14,14 +15,16 @@ public class Question {
         this.category = "";
         this.question = "";
         this.answer = "";
+        this.points = 0;
     }
 
-    public Question(int gameId, int questionId, String category, String question, String answer) {
+    public Question(int gameId, int questionId, String category, String question, String answer, int points) {
         this.gameId = gameId;
         this.questionId = questionId;
         this.category = category;
         this.question = question;
         this.answer = answer;
+        this.points = points;
     }
 
     // Getters and Setters
@@ -59,6 +62,14 @@ public class Question {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public int getPoints(){
+        return points;
+    }
+
+    public void setPoits(int points){
+        this.points = points;
     }
 
     public void setAnswer(String answer) {

@@ -25,10 +25,32 @@ public class JeopardyController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<String> addQuestion(@RequestBody String question) {
-        // Logic to add a question
-        return ResponseEntity.ok("Question added successfully!");
+    public ResponseEntity<String> addQuestion(@RequestParam int gameId,
+                                              @RequestParam int questionId,
+                                              @RequestParam String category,
+                                              @RequestParam String question,
+                                              @RequestParam String answer,
+                                              @RequestParam int points) {
+        // Log the incoming parameters
+        System.out.println("Adding question with parameters: gameId=" + gameId
+                + ", questionId=" + questionId
+                + ", category=" + category
+                + ", question=" + question
+                + ", answer=" + answer
+                + ", points=" + points);
+
+        // Call the service method to add the question to the database
+        boolean isAdded = db.addQuestion(gameId, questionId, category, question, answer, points);
+
+        // Return appropriate response
+        if (isAdded) {
+            return ResponseEntity.ok("Question added successfully!");
+        } else {
+            return ResponseEntity.status(500).body("Error adding question.");
+        }
     }
+
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateQuestion(@PathVariable int id, @RequestBody String updatedQuestion) {
