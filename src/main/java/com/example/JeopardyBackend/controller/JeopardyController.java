@@ -58,9 +58,16 @@ public class JeopardyController {
         return ResponseEntity.ok("Question with ID " + id + " updated successfully!");
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteQuestion(@PathVariable int id) {
-        // Logic to delete a question
-        return ResponseEntity.ok("Question with ID " + id + " deleted successfully!");
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteQuestions(@RequestParam int gameId) {
+        boolean isDeleted = db.deleteQuestions(gameId);
+
+        if (isDeleted) {
+            return ResponseEntity.ok("All questions with game ID " + gameId + " deleted successfully!");
+        } else {
+            return ResponseEntity.status(500).body("Error deleting questions for game ID " + gameId);
+        }
     }
+
+
 }

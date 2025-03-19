@@ -78,4 +78,21 @@ public class MySQLDataBaseModification {
         }
     }
 
+    public boolean deleteQuestions(int gameId) {
+        String query = "DELETE FROM questions WHERE game_id = ?";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, gameId);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0; // Returns true if at least one row was deleted
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
