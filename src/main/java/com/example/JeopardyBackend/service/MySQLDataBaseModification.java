@@ -15,39 +15,36 @@ public class MySQLDataBaseModification {
     private final String username = "root";
     private final String password = "ekdQnnewAOMDeiLorYfoYDDjGEwrWKar";
 
-    // Method to fetch a Question by gameId and questionId, and return it as a string
-    public String getQuestion(int gameId, int questionId) {
+    public Question getQuestion(int gameId, int questionId) {
         System.out.println("PARAMETERS RECEIVED: " + gameId + ", " + questionId);
         String query = "SELECT * FROM questions WHERE game_id = ? AND question_id = ?";
+
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            // Set the parameters
             preparedStatement.setInt(1, gameId);
             preparedStatement.setInt(2, questionId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Retrieve data from the result set
-                    String category = resultSet.getString("category");
-                    String questionText = resultSet.getString("question");
-                    String answer = resultSet.getString("answer");
-                    int points = resultSet.getInt("points");
-
-                    // Create and return the Question as a string
-                    Question question = new Question(gameId, questionId, category, questionText, answer, points);
-                    System.out.println(question.toString());
-                    return question.toString();
-                } else {
-                    return "Question not found for the given gameId and questionId.";
+                    return new Question(
+                            gameId,
+                            questionId,
+                            resultSet.getString("category"),
+                            resultSet.getString("question"),
+                            resultSet.getString("answer"),
+                            resultSet.getInt("points")
+                    );
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error retrieving the question: " + e.getMessage();
         }
+
+        return null; // Return null if no question is found
     }
+
 
     public boolean addQuestion(int gameId, int questionId, String category, String question, String answer, int points) {
         String query = "INSERT INTO questions (game_id, question_id, category, question, answer, points) VALUES (?, ?, ?, ?, ?, ?)";

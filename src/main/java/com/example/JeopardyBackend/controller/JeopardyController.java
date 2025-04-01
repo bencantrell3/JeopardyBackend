@@ -12,15 +12,21 @@ public class JeopardyController {
     private final MySQLDataBaseModification db = new MySQLDataBaseModification();
 
     @GetMapping("/get")
-    public String getQuestion(@RequestParam(required = false) Integer gameId,
-                              @RequestParam(required = false) Integer questionId) {
+    public ResponseEntity<?> getQuestion(@RequestParam(required = false) Integer gameId,
+                                         @RequestParam(required = false) Integer questionId) {
         if (gameId == null || questionId == null) {
-            return "Missing required query parameters: gameId and questionId.";
+            return ResponseEntity.badRequest().body("Missing required query parameters: gameId and questionId.");
         }
 
         System.out.println("Question retrieved successfully for game ID: " + gameId + " and question ID: " + questionId);
 
-        return db.getQuestion(gameId, questionId);
+        Question question = db.getQuestion(gameId, questionId);
+
+        if (question == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if no question found
+        }
+
+        return ResponseEntity.ok(question); // Spring Boot automatically converts to JSON
     }
 
 
