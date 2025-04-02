@@ -5,6 +5,8 @@ import com.example.JeopardyBackend.model.Question;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/jeopardy")
 public class JeopardyController {
@@ -27,6 +29,23 @@ public class JeopardyController {
         }
 
         return ResponseEntity.ok(question); // Spring Boot automatically converts to JSON
+    }
+
+    @GetMapping("/getall")
+    public ResponseEntity<?> getAllQuestions(@RequestParam Integer gameId) {
+        if (gameId == null) {
+            return ResponseEntity.badRequest().body("Missing required query parameter: gameId.");
+        }
+
+        System.out.println("Retrieving all questions for game ID: " + gameId);
+
+        List<Question> questions = db.getAllQuestions(gameId);
+
+        if (questions.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Return 404 if no questions found
+        }
+
+        return ResponseEntity.ok(questions); // Return all questions as JSON
     }
 
 
