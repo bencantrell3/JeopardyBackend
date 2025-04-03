@@ -139,6 +139,17 @@ public class MySQLDataBaseModification {
         }
     }
 
+    public void addAllQuestions(Question[] questions) {
+        for (Question q : questions) {
+            boolean success = addQuestion(q.getGameId(), q.getQuestionId(), q.getCategory(),
+                    q.getQuestion(), q.getAnswer(), q.getPoints());
+            if (!success) {
+                System.out.println("Failed to add question with ID: " + q.getQuestionId());
+            }
+        }
+    }
+
+
     public boolean deleteQuestions(int gameId) {
         String query = "DELETE FROM questions WHERE game_id = ?";
 
