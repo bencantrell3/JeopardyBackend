@@ -2,10 +2,12 @@ package com.example.JeopardyBackend.controller;
 
 import com.example.JeopardyBackend.service.MySQLDataBaseModification;
 import com.example.JeopardyBackend.model.Question;
+import com.example.JeopardyBackend.service.QuestionProcessor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/jeopardy")
@@ -77,10 +79,12 @@ public class JeopardyController {
 
 
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateQuestion(@PathVariable int id, @RequestBody String updatedQuestion) {
-        // Logic to update a question
-        return ResponseEntity.ok("Question with ID " + id + " updated successfully!");
+    @PostMapping("/createquestions")
+    public void receiveQuestions(@RequestBody Map<String, String> body) {
+        String jsonString = body.get("questionSet");
+        MySQLDataBaseModification sql = new MySQLDataBaseModification();
+        Question[] questions = QuestionProcessor.parseQuestions(jsonString);
+        sql.addAllQuestions(questions);
     }
 
     @DeleteMapping("/delete")
